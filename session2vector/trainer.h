@@ -22,11 +22,18 @@ public:
 		Trainer(len_vec, vocab_size, alpha);
 	}
 	
-	void train_iter(vector<index_type> &preterms, vector<index_type> &nextterms1, vector<index_type> &nextterms2) {
-
+	void train_iter(vector<index_type> &preterms, vector<index_type> &nextterms1, vector<index_type> &nextterms2, Vec &grad_L_xa, Vec &grad_L_xb) {
+		// 取得现有项的和
+		Vec xp = sin(vocab.sum(preterms));
+		Vec xa = sin(vocab.sum(nextterms1));
+		Vec xb = sin(vocab.sum(nextterms2));
 		value_type exp__dot_xp_xa = exp(-dot(xp, xa));
 		value_type tmpa = - exp__dot_xp_xa / pow((1+exp__dot_xp_xa), 2);
+		Vec grad_L_xa = sin(xp) * cos(xa) * tmpa;
 
+		value_type exp__dot_xp_xb = exp(-dot(xp, xa));
+		value_type tmpb = - exp__dot_xp_xb / pow((1+exp__dot_xp_xb), 2);
+		Vec grad_L_xb = sin(xp) * cos(xb) * tmpb;
 	}
 
 protected:
