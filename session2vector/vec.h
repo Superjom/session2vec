@@ -133,7 +133,6 @@ public:
 		return vec.end();
 	}
 
-	// Ëæ»ú³õÊ¼»¯
 	void randInit() {
 		float r;
 		for(index_t i=0; i<size(); i++) {

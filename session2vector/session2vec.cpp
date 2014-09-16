@@ -4,14 +4,12 @@
 #include "trainer.h"
 using namespace std;
 
-typedef vector<index_t> record_t;
-typedef pair<record_t, record_t> pair_t;
 
 void line2pairs(costr line, vector<pair_t> &pairs);
-// 读入line，产生pair对
+
 void line2records(costr line, vector<record_t> &records);
 
-void records2pairs(const vector<record_t> &records, vector<pair_t> &pairs);
+bool records2pairs(const vector<record_t> &records, record_t &prequery, vector<pair_t> &pairs);
 
 class Session2Vec {
 
@@ -37,7 +35,7 @@ public:
 protected:
 
 	float train(int niter=100) {
-		pair<index_t, index_t> costs(0,0);	// first为正 second为负
+		pair<index_t, index_t> costs(0,0);	
 		for(vector<vector<record_t> >::iterator rs_t=trainset.begin(); rs_t!=trainset.end(); ++rs_t) {
 			vector<pair_t> pairs;
 			record_t prequery;
@@ -55,7 +53,7 @@ protected:
 	float valid() {
 		float cost = 0.0;
 		if(!valid_filename.empty()) {
-			pair<index_t, index_t> costs(0,0);	// first为正 second为负
+			pair<index_t, index_t> costs(0,0);	
 			for(vector<vector<record_t> >::iterator rs_t=validset.begin(); rs_t!=validset.end(); ++rs_t) {
 				vector<pair_t> pairs;
 				record_t prequery;
@@ -101,7 +99,6 @@ protected:
 		}
 	}
 
-	// 用pair的预测效果作评估
 	float updateCost(float L, pair<index_t, index_t> &costs) {
 		if(L > 0) {
 			costs.second++;
@@ -117,9 +114,7 @@ protected:
 private:
 	Trainer trainer;
 	string train_filename, valid_filename;
-	// 存储文件中的records 先不展开为pair
-	// 每行是n个record
-	// 其中，第一个为prequery 后面为按转移顺序存储的nextquery
+
 	vector< vector<record_t> > trainset;
 	vector< vector<record_t> > validset;
 
@@ -143,9 +138,6 @@ void line2records(costr line, vector<record_t> &records)
 	}
 }
 
-// records 按顺序从大到小排列
-// 最终 将所有的正向pair对产生
-// 第1个记录为prequery 后面为按照转移概率排列的nextquerys
 bool records2pairs(const vector<record_t> &records, record_t &prequery, vector<pair_t> &pairs)
 {
 	if(records.size() < 3) return false;
@@ -161,8 +153,9 @@ bool records2pairs(const vector<record_t> &records, record_t &prequery, vector<p
 
 void line2pairs(costr line, vector<pair_t> &pairs) {
 	vector<record_t> records;
+    record_t prequery;
 	line2records(line, records);
-	records2pairs(records, pairs);
+	records2pairs(records, prequery, pairs);
 }
 
 //#include "test.h"

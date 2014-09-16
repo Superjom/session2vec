@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <cassert>
+#include <cstdio>
+#include <cstdlib>
 using namespace std;
 
 // types
@@ -14,6 +16,10 @@ typedef const string& costr;
 typedef vector<string> strings_t;
 typedef vector<string>::iterator strings_iter_t;
 typedef vector<index_t> indexs_t;
+
+typedef vector<index_t> record_t;
+typedef pair<record_t, record_t> pair_t;
+
 
 void showVector(const vector<ItemType> &vec) {
 	for(int i=0; i<vec.size(); ++i) {
