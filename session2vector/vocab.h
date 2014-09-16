@@ -9,26 +9,26 @@ public:
 
 	Vocab() {}
 
-	Vocab(index_type size, index_type len_vec, bool random_init=true) :\
+	Vocab(index_t size, index_t len_vec, bool random_init=true) :\
 		size(size), len_vec(len_vec) {
 		initVecs(random_init);
 	}
 
-	void init(index_type size, index_type len_vec, bool random_init=true) {
+	void init(index_t size, index_t len_vec, bool random_init=true) {
 		Vocab(size, len_vec, random_init);
 	}
 
-	void updateVec(const vector<index_type> &ids, Vec grad, float alpha) {
-		for(vector<index_type>::const_iterator id_t=ids.begin(); id_t != ids.end(); ++id_t) {
+	void updateVec(const vector<index_t> &ids, Vec grad, float alpha) {
+		for(vector<index_t>::const_iterator id_t=ids.begin(); id_t != ids.end(); ++id_t) {
 			for(int i=0; i<len_vec; ++i) {
 				vecs[*id_t][i] -= alpha * grad[i];
 			}
 		}
 	}
 
-	Vec sum(const vector<index_type> &ids) const{
+	Vec sum(const vector<index_t> &ids) const{
 		Vec vec(len_vec);
-		for(vector<index_type>::const_iterator id_t=ids.begin(); id!=ids.end(); ++id) {
+		for(vector<index_t>::const_iterator id_t=ids.begin(); id_t!=ids.end(); ++id_t) {
 			vec += vecs[*id_t];
 		}
 		return vec;
@@ -39,7 +39,7 @@ protected:
 	void initVecs(bool random_init) {
 		cout << "init vectors" << endl;
 		vecs.clear();
-		for(index_type i=0; i<size; i++) {
+		for(index_t i=0; i<size; i++) {
 			Vec vec(len_vec);
 			if(random_init) vec.randInit();
 			vecs.push_back(vec);
@@ -49,8 +49,8 @@ protected:
 	
 
 private:
-	index_type size;
-	index_type len_vec;
+	index_t size;
+	index_t len_vec;
 	vector<Vec> vecs;
 };
 

@@ -76,8 +76,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="test.h" />
+    <ClInclude Include="trainer.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vec.h" />
+    <ClInclude Include="vocab.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="session2vec.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

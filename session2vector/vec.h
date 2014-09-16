@@ -27,14 +27,14 @@ public:
 	// operators ------------------------------------
 	value_type dot(Vec &other) {
 		value_type sum = 0.0;
-		for(index_type i=0; i<other.size(); ++i) {
+		for(index_t i=0; i<other.size(); ++i) {
 			sum += vec[i] * other[i];
 		}
 	}
 
 	value_type mean() const {
 		value_type res = 0.0;
-		for(index_type i=0; i<vec.size(); i++) {
+		for(index_t i=0; i<vec.size(); i++) {
 			res += vec[i];
 		}
 		return res / vec.size();
@@ -42,7 +42,7 @@ public:
 
 	value_type sum() const {
 		value_type res = 0.0;
-		for(index_type i=0; i<vec.size(); i++) {
+		for(index_t i=0; i<vec.size(); i++) {
 			res += vec[i];
 		}
 		return res;
@@ -56,7 +56,7 @@ public:
 		return newVec;
 	}
 
-	friend Vec operator+=(const Vec &a, const Vec &b) {
+	friend Vec operator+=(Vec &a, const Vec &b) {
 		assert(a.size() == b.size());
 		for(int i=0; i<a.size(); ++i) {
 			a[i] += b[i];
@@ -74,42 +74,52 @@ public:
 	friend Vec operator+(const Vec &a, const Vec &b) {
 		assert(a.size() == b.size());
 		Vec newVec(a);
-		for(index_type i=0; i<a.size(); i++) {
+		for(index_t i=0; i<a.size(); i++) {
 			newVec[i] += b[i];
 		}
 		return newVec;
 	}
 
+	friend Vec operator-(const Vec &a, const Vec &b) {
+		assert(a.size() == b.size());
+		Vec newVec(a);
+		for(index_t i=0; i<a.size(); i++) {
+			newVec[i] -= b[i];
+		}
+		return newVec;
+	}
+
+
 	friend Vec operator*(const Vec &a, const Vec &b) {
 		assert(a.size() == b.size());
 		Vec newVec(a);
-		for(index_type i=0; i<newVec.size(); i++) {
+		for(index_t i=0; i<newVec.size(); i++) {
 			newVec[i] *= b[i];
 		}
 		return newVec;
 	}
 
-	friend Vec operator/= (const Vec &a, value_type v) {
-		for(iterator it=begin(); it!=end(); ++it) {
+	friend Vec operator/= (Vec &a, value_type v) {
+		for(iterator it=a.begin(); it!=a.end(); ++it) {
 			*it /= v;
 		}
 	}
 
 	// get element
-	value_type operator[](index_type i) const {
+	value_type operator[](index_t i) const {
 		return vec[i];
 	}
 
-	value_type &operator[](index_type i) {
+	value_type &operator[](index_t i) {
 		return vec[i];
 	}
 
 	//api
-	index_type size() {
+	index_t size() const {
 		return vec.size();
 	}
 
-	void display() {
+	void display() const {
 		cout << "size: ---------" <<size() << "----------" << endl;
 		showVector(vec);
 	}
@@ -126,8 +136,8 @@ public:
 	// Ëæ»ú³õÊ¼»¯
 	void randInit() {
 		float r;
-		for(index_type i=0; i<size(); i++) {
-			r = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 0.5) / 100;
+		for(index_t i=0; i<size(); i++) {
+			r = (static_cast<float>(rand()) / static_cast<float>(RAND_MAX) - 0.5);
 			vec[i] = r;
 		}
 	}
@@ -154,7 +164,7 @@ Vec cos(const Vec&vec) {
 
 ItemType dot(Vec &a, Vec &b) {
 	ItemType res = 0.0;
-	for(index_type i=0; i<a.size(); ++i) {
+	for(index_t i=0; i<a.size(); ++i) {
 		res += a[i] * b[i];
 	}
 	return res;
