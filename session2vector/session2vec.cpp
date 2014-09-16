@@ -15,7 +15,7 @@ class Session2Vec {
 
 public:
 
-	Session2Vec(int len_vec, index_t vocab_size, float alpha, costr train_filename, costr valid_filename) \
+	Session2Vec(int len_vec, index_t vocab_size, float alpha, costr train_filename, costr valid_filename="") \
 		:train_filename(train_filename), valid_filename(valid_filename)
 	{
 		trainer.init(len_vec, vocab_size, alpha);
@@ -164,5 +164,7 @@ void line2pairs(costr line, vector<pair_t> &pairs) {
 int main()
 {
 	//test_records2pair();
+    Session2Vec session2vec(8, 337122, 0.01, "1.sample");
+    session2vec.run(1);
 	return 0;
 }

@@ -14,6 +14,10 @@ public:
 	Trainer(int len_vec, index_t vocab_size, float alpha=0.01) : \
 		len_vec(len_vec), vocab_size(vocab_size), alpha(alpha)
 	{
+        cout << "init trainer" << endl;
+        cout << "len_vec " << len_vec << endl;
+        cout << "vocab_size " << vocab_size << endl;
+        cout << "alpha " << alpha << endl;
 		vocab.init(vocab_size, len_vec, true);
 	}
 
@@ -23,7 +27,7 @@ public:
 	
 	// TODO 
 	value_type train_iter(record_t &preterms, record_t &nextterms1, record_t &nextterms2) {
-		// 取得现有项的和
+
 		Vec xp = sin(vocab.sum(preterms));
 		Vec xa = sin(vocab.sum(nextterms1));
 		Vec xb = sin(vocab.sum(nextterms2));
@@ -69,7 +73,7 @@ protected:
 
 private:
 	int len_vec;
-	int vocab_size;
+	index_t vocab_size;
 	float alpha;
 	Vocab vocab;
 };
